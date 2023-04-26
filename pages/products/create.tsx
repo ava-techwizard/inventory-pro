@@ -1,8 +1,10 @@
 import Input from "@/components/Input";
-import { CREATE_PRODUCT } from "@/constants/endpoints";
+import { ENDPOINT } from "@/constants/endpoints";
 import { FieldType, fields } from "@/constants/productFields";
+import requireAuthentication from "@/lib/requireAuthentication";
 import { layout } from "@/styles/style";
 import axios from "axios";
+import { NextPageContext } from "next";
 import { useState } from "react";
 
 // types
@@ -15,6 +17,12 @@ export type ProductDetails = {
   unit: string;
 };
 
+export async function getServerSideProps(context: NextPageContext) {
+  return requireAuthentication(context, {
+    props: {},
+  });
+}
+
 const Create = () => {
   const [productDetails, setProductDetails] =
     useState<Partial<ProductDetails>>();
@@ -26,7 +34,7 @@ const Create = () => {
     e.preventDefault();
 
     // CALL CREATE API
-    await axios.post(CREATE_PRODUCT, productDetails).then(() => {
+    await axios.post(ENDPOINT.CREATE_PRODUCT, productDetails).then(() => {
       // const { data } = response;
     });
     // .catch((error) => {});

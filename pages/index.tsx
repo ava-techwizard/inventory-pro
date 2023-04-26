@@ -1,22 +1,12 @@
-import { AUTH } from "@/constants/routes";
+import requireAuthentication from "@/lib/requireAuthentication";
 import { NextPageContext } from "next";
-import { getSession } from "next-auth/react";
 
 export async function getServerSideProps(context: NextPageContext) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: AUTH,
-        permanent: false,
-      },
-    };
-  }
-  return {
+  return requireAuthentication(context, {
     props: {},
-  };
+  });
 }
 
 export default function Home() {
-  return <></>;
+  return null;
 }
