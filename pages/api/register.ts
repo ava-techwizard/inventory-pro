@@ -1,4 +1,5 @@
-import prismadb from "@/lib/prismadb";
+import { REQUEST_METHOD } from "@/constants/endpoints";
+import prismadb from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -6,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
+  if (req.method !== REQUEST_METHOD.POST) {
     return res.status(405).end();
   }
   try {

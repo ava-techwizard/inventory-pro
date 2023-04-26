@@ -1,3 +1,4 @@
+import { REQUEST_METHOD } from "@/constants/endpoints";
 import serverAuth from "@/lib/serverAuth";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -5,7 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "GET") {
+  if (req.method !== REQUEST_METHOD.GET) {
     return res.status(405).end();
   }
 

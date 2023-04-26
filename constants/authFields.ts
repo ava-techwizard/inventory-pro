@@ -1,17 +1,15 @@
+import BaseFieldType from "./baseField";
+
+/* eslint-disable no-unused-vars */
 export enum AuthState {
   SIGN_IN = "SIGN_IN",
   SIGN_UP = "SIGN_UP",
 }
-export type FieldType = {
-  labelText: string;
-  id: string;
-  name: string;
-  type: string;
-  isRequired: boolean;
+export interface FieldType extends BaseFieldType {
   authState?: AuthState;
-};
+}
 
-export const fields = [
+export const fields: FieldType[] = [
   {
     labelText: "Name",
     id: "name",

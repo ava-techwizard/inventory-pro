@@ -36,9 +36,11 @@ const SideNavigation = () => {
       ))}
 
       {/* Actions */}
-      <button className='text-white' onClick={() => signOut()}>
-        {" "}
-        Sign out
+      <button
+        className='text-white hover:bg-slate-500 w-5/6 p-3 hover:rounded-4xl'
+        onClick={() => signOut()}
+      >
+        {`Sign out`}
       </button>
     </div>
   );
