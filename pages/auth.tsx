@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { getSession, signIn } from "next-auth/react";
@@ -9,6 +10,13 @@ import { AuthState, FieldType, fields } from "@/constants/authFields";
 import { HOME } from "@/constants/routes";
 import { NextPageContext } from "next";
 import { ENDPOINT } from "@/constants/endpoints";
+// import { useFormik } from "formik";
+
+const initialValues: any = {};
+
+fields.forEach((field) => {
+  initialValues[field.name] = "";
+});
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -26,6 +34,13 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 
 const Auth = () => {
+  /* const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  }); */
+
   const [credentials, setCredentials] = useState<{
     name: string;
     email: string;
@@ -83,30 +98,37 @@ const Auth = () => {
           {authState === AuthState.SIGN_IN ? "Login" : "Sign Up"}
         </h1>
 
-        <div className={layout.flex.col.center + "gap-4 "}>
-          {/* NAME */}
-          {fields
-            .filter(
-              (eachField) =>
-                !eachField.authState || eachField.authState === authState
-            )
-            .map((eachField: FieldType) => (
-              <Input
-                key={eachField.id}
-                type={eachField.type}
-                labelText={eachField.labelText}
-                id={eachField.id}
-                value={credentials[eachField.id]}
-                onChange={credentialsHandler}
-              />
-            ))}
-
-          <button
-            onClick={authState === AuthState.SIGN_IN ? login : register}
-            className='shadow-xl rounded-sm bg-blue-600 hover:bg-blue-500 text-white text-center uppercase w-full p-2'
+        <div className={"flex flex-col gap-4"}>
+          <form
+            className={layout.flex.col.center + "gap-4"}
+            // onSubmit={handleSubmit}
           >
-            {authState === AuthState.SIGN_IN ? "Login" : "Sign Up"}
-          </button>
+            {/* NAME */}
+            {fields
+              .filter(
+                (eachField) =>
+                  !eachField.authState || eachField.authState === authState
+              )
+              .map((eachField: FieldType) => (
+                <Input
+                  key={eachField.id}
+                  type={eachField.type}
+                  labelText={eachField.labelText}
+                  id={eachField.id}
+                  value={credentials[eachField.id]}
+                  onChange={credentialsHandler}
+                  // onChange={handleChange}
+                  // onBlur={handleBlur}
+                />
+              ))}
+
+            <button
+              onClick={authState === AuthState.SIGN_IN ? login : register}
+              className='shadow-xl rounded-sm bg-blue-600 hover:bg-blue-500 text-white text-center uppercase w-full p-2'
+            >
+              {authState === AuthState.SIGN_IN ? "Login" : "Sign Up"}
+            </button>
+          </form>
           <div className={`${layout.flex.row.center} gap-6 w-full `}>
             <div
               className={`${layout.flex.row.center} p-2 rounded-full shadow-xl cursor-pointer`}
